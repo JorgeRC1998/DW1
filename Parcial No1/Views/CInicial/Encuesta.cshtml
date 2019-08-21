@@ -1,0 +1,122 @@
+﻿
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>InterfazMonto</title>
+</head>
+<body>
+    Cuestionario
+    <br><br />
+    <div>
+        Por favor responde las siguientes preguntas, llenando los campos y al finalizar da clic en el botón finalizar
+        <br><br />
+        (1) ¿Cuál es el resultado de 2 x 2?
+        <input type="number" value="" id="multiplicacion" onkeypress="return valida(event)"/>
+        <br><br />
+        (2) ¿Cuál es el resultado de 2 + 2?
+        <input type="number" value="" id="suma" onkeypress="return valida(event)" />
+        <br><br />
+        (3) ¿Cuál es el resultado de 2 / 2?
+        <input type="number" value="" id="division" onkeypress="return valida(event)"/>
+        <br><br />
+        (4) ¿Cuál es el resultado de 2 - 2?
+        <input type="number" value="" id="resta" onkeypress="return valida(event)"/>
+        <br><br />
+        (5) ¿Cuál es el resultado de 2 ^ 3?
+        <input type="number" value="" id="potencia" onkeypress="return valida(event)"/>
+        <br><br />
+    </div>
+
+     <a href="/CInicial/listarTabla"><input type="button" value="Finalizar" id="btnFinalizar" /></a>
+    <script src="~/JavaScript/jquery-3.3.1.min.js"></script>
+    <a href="/CInicial/Usuario"><input type="button" value="Regresar" id="btnRegresar" /></a>
+</body>
+</html>
+
+<script>
+
+    $("#btnFinalizar").click(function () {
+        Encuesta();
+    });
+
+    function Encuesta() {
+         $.ajax({
+        cache: false,
+        url: '@Url.Action("Encuesta", "CInicial")',
+        async: false,
+        type: "POST",
+             dataType: "json",
+             data: { valor1: $("#multiplicacion").val(), valor2: $("#suma").val(), valor3: $("#division").val(), valor4: $("#resta").val(), valor5: $("#potencia").val() }, 
+        error: function (response, status, error) {
+            alert(error);
+
+        },
+             success: function (data) {
+                 alert(data);
+                 location.href = "/CInicial/Encuesta";
+        },
+        beforeSend: function () {
+
+        },
+        complete: function () {
+
+        }
+    });
+    }
+</script>
+
+<script>
+    function valida(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros
+        patron = /[0-9]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+</script>
+
+<script>
+    window.onload = function () {
+        var myInput = document.getElementById('multiplicacion');
+        var myInput1 = document.getElementById('suma');
+        var myInput2 = document.getElementById('division');
+        var myInput3 = document.getElementById('resta');
+        var myInput4 = document.getElementById('potencia');
+
+        myInput.onpaste = function (e) {
+            e.preventDefault();
+            alert("esta acción está prohibida");
+        }
+        myInput1.onpaste = function (e) {
+            e.preventDefault();
+            alert("esta acción está prohibida");
+        }
+        myInput2.onpaste = function (e) {
+            e.preventDefault();
+            alert("esta acción está prohibida");
+        }
+        myInput3.onpaste = function (e) {
+            e.preventDefault();
+            alert("esta acción está prohibida");
+        }
+        myInput4.onpaste = function (e) {
+            e.preventDefault();
+            alert("esta acción está prohibida");
+        }
+
+        myInput.oncopy = function (e) {
+            e.preventDefault();
+            alert("esta acción está prohibida");
+        }
+    }
+</script>

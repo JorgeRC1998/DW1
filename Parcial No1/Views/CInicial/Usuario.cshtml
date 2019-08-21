@@ -1,0 +1,90 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>InterfazMonto</title>
+</head>
+<body>
+    Bienvenido a la encuesta
+    <br><br />
+    <div>
+        Por favor ingresde su cedula para continuar
+        <br><br />
+        cedula
+        <input type="number" value="" id="cedula"  onkeypress="return valida(event)" required="" />
+        <br><br />
+    </div>
+
+    <div><input type="button" value="Ingresar" id="btnIngresar" /> </div>
+    <script src="~/JavaScript/jquery-3.3.1.min.js"></script>
+</body>
+</html>
+
+@* Script para obtener la cedula del campo de texto *@
+<script>
+
+    $("#btnIngresar").click(function () {
+        obtenerCedula();
+
+    });
+
+    function obtenerCedula() {
+         $.ajax({
+        cache: false,
+        url: '@Url.Action("obtenerCedula", "CInicial")',
+        async: false,
+        type: "POST",
+             dataType: "json",
+             data: { cedula: $("#cedula").val(), },
+        error: function (response, status, error) {
+            alert(error);
+        },
+             success: function (data) {
+                 alert(data);
+                 location.href = "/CInicial/Encuesta ";
+        },
+        beforeSend: function () {
+
+        },
+        complete: function () {
+
+        }
+    });
+    }
+</script>
+
+<script>
+    function valida(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros
+        patron = /[0-9]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+</script>
+
+<script>
+    window.onload = function () {
+        var myInput = document.getElementById('cedula');
+        myInput.onpaste = function (e) {
+            e.preventDefault();
+            alert("esta acción está prohibida");
+        }
+
+        myInput.oncopy = function (e) {
+            e.preventDefault();
+            alert("esta acción está prohibida");
+        }
+    }
+</script>

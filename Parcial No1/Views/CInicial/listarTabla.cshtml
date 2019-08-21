@@ -1,0 +1,41 @@
+﻿@model System.Data.DataSet
+@using System.Data
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>listarTabla</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td>
+                cedula
+            </td>
+            <td>
+                puntuacion
+            </td>
+        </tr>
+        @foreach (DataRow row in Model.Tables[0].Rows)
+        {
+
+            <td>
+                @row["Cedula"]
+            </td>
+            <td>
+                @row["Resultado"]
+            </td>
+
+        }
+    </table> 
+    <br><br/>
+    <a href="/CInicial/Usuario"><input type="button" value="Regresar" id="btnRegresar" /></a>
+    <div>
+    </div>
+</body>
+</html>
